@@ -1,0 +1,87 @@
+
+
+
+<!--<form method="POST" action="/home/search">-->
+<div style= "margin-top: 100px">
+<label class="checkbox-inline">
+  <input type="checkbox" id="inlineCheckbox1" name="option" value="false"> 24시간
+</label>
+<label class="checkbox-inline">
+  <input type="checkbox" id="inlineCheckbox2" name="option" value="false"> 콘센트 많은가?
+</label>
+</div>
+<button id="search_btn" type="button" class="btn btn-primary">Submit</button>
+<div id="section">
+  
+</div>
+<!--</form>-->
+
+
+
+
+<script type="text/javascript">
+$(function(){
+  $("#inlineCheckbox1").click(function(){
+    var is_checked = $(this).is(":checked");
+    if(is_checked){
+      $(this).val("true");
+    }else{
+      $(this).val("false");
+    }
+  });
+  $("#inlineCheckbox2").click(function(){
+    var is_checked = $(this).is(":checked");
+    if(is_checked){
+      $(this).val("true");
+    }else{
+      $(this).val("false");
+    }
+  });
+  
+  
+  $("#search_btn").click(function(){
+    $.ajax({
+      method: "POST",
+      url: "/home/search",
+      data: { overnight: $("#inlineCheckbox1").val() ,
+              outlet: $("#inlineCheckbox2").val()},
+      success: function(data){
+        for(i=0; i<data.cafes.length; i++){
+          $("#section").append("<p>" + data.cafes[i].name + "</p><br>");
+          $("#section").append("<p>" + data.cafes[i].open_time + "</p><br>");
+          $("#section").append("<p>" + data.cafes[i].close_time + "</p><br>");
+          $("#section").append("<p>" + data.cafes[i].lat + "</p><br>");
+          $("#section").append("<p>" + data.cafes[i].lng + "</p><br>");
+        }
+      } 
+    });
+  });
+});
+
+    // //Ajax 연동
+    // function array_chk() {
+    //     var para2 = [];
+    //     $("input[name='option']:checked").each(function(i) {
+    //     para2.push($(this).val());
+    //     });
+        
+    //     var postData = { "para1": "para1", "chklist": para2 };
+
+    //     $.ajax({
+    //           url:'/home/index',
+    //           type:'post',
+    //           data:postData,
+    //           traditional: true,
+              
+    //           error:function(){
+    //                 alert('네트워크가 불안정합니다.');
+    //           },
+    //           success:function(obj){
+    //                 alert (obj);
+    //           }
+    //     });
+    // }    
+</script>
+  
+ 
+  
